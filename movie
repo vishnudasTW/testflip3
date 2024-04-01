@@ -1,0 +1,43 @@
+
+        <div class="enclosure">
+        <form>
+              🎥Movie: <input id="movieTitle" size="25px" placeholder="Type the name of a movie" />
+              <button type="submit" id="submit">🎥Submit</button>
+              </form>
+              <p id="title">🎬Title: </p>
+              <p id="overview">🎬Overview: </p>
+              <p id="release-date">🎬Release date: </p>
+              <img id="poster">
+              </div>
+              <script>
+          var apiKey = 'YOUR_API_KEY_HERE';
+          var button = document.getElementById('submit');
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            movieSearch();
+          });
+
+          async function movieSearch() {
+            var userQuery = document.getElementById('movieTitle').value;
+            var url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${userQuery}`;
+            let response = await fetch(url);
+            if (!response.ok) {
+                console.log('HTTP error; status: ', response.status);
+            } else {
+              let data = await response.json();
+              console.log(data);
+
+              document.getElementById('title').textContent = `🎬Title: ${data.results[0].title}`;
+
+              document.getElementById('overview').textContent = `🎬Overview: ${data.results[0].overview}`;
+
+              document.getElementById('release-date').textContent = `🎬Release date: ${data.results[0].release_date}`;
+
+              document.getElementById('poster').src = `https://image.tmdb.org/t/p/w342${data.results[0].poster_path}`;
+            }
+          }
+          </script>
+          </div>
+          </body>
+          </html>
+      
